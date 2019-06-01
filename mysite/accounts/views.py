@@ -8,7 +8,7 @@ from django.contrib import messages
 from pymongo import MongoClient
 
 client = MongoClient('localhost', 27017)
-database = client.test
+database = client.project
 collection = database.steam
 user_coll = database.user
 
@@ -156,7 +156,7 @@ def game(request):
     checkUpdate = False
     if (request.method == 'POST'):
         game_name = request.POST.get('gameName')
-        game_img = request.POST.get('gameImg')
+		game_img = request.POST.get('gameImg')
         tempgame_genre = request.POST.get('gameGenre')
         delete_check = request.POST.get('deleteCheck')
     if (game_img != "" and game_img != None):
