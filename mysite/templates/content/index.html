@@ -1,0 +1,228 @@
+<!DOCTYPE HTML>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+{% load static %}
+<html>
+	<head>
+		<title>Editorial by HTML5 UP</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="{% static 'css/main.css' %}" />
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+
+							<!-- Section -->
+								<section>
+									<header class="major">
+										<h2>추천 게임</h2>
+									</header>
+									<div class="posts">
+										<article>
+											<a href="#" class="image"><img src="{{games.0.img}}" alt="" /></a>
+											<h3>{{games.0.title}}</h3>
+											<p>{{games.0.description}}</p>
+                                            <p id='genre1' hidden>{% for genre in games.0.genre %}
+                                                {{genre}},&nbsp;
+                                            {% endfor %}
+                                            </p>
+                                            <p id="aftergenre1"></p>
+                                            <script type="text/javascript">
+                                                var str = "";
+                                                str = document.getElementById('genre1').innerHTML;
+                                                str = str.trim();
+                                                document.getElementById('aftergenre1').innerHTML = str.substr(0, str.length-7);
+                                            </script>
+											<ul class="actions">
+												<li><a href="#" class="button">More</a></li>
+											</ul>
+										</article>
+										<article>
+											<a href="#" class="image"><img src="{{games.1.img}}" alt="" /></a>
+											<h3>{{games.1.title}}</h3>
+											<p>{{games.1.description}}</p>
+                                            <p id='genre2' hidden>{% for genre in games.1.genre %}
+                                                {{genre}},&nbsp;
+                                            {% endfor %}
+                                            </p>
+                                            <p id="aftergenre2"></p>
+                                            <script type="text/javascript">
+                                                var str = "";
+                                                str = document.getElementById('genre2').innerHTML;
+                                                str = str.trim();
+                                                document.getElementById('aftergenre2').innerHTML = str.substr(0, str.length-7);
+                                            </script>
+											<ul class="actions">
+												<li><a href="#" class="button">More</a></li>
+											</ul>
+										</article>
+										<article>
+											<a href="#" class="image"><img src="{{games.2.img}}" alt="" /></a>
+											<h3>{{games.2.title}}</h3>
+											<p>{{games.2.description}}</p>
+                                            <p id='genre3' hidden>{% for genre in games.2.genre %}
+                                                {{genre}},&nbsp;
+                                            {% endfor %}
+                                            </p>
+                                            <p id="aftergenre3"></p>
+                                            <script type="text/javascript">
+                                                var str = "";
+                                                str = document.getElementById('genre3').innerHTML;
+                                                str = str.trim();
+                                                document.getElementById('aftergenre3').innerHTML = str.substr(0, str.length-7);
+                                            </script>
+											<ul class="actions">
+												<li><a href="#" class="button">More</a></li>
+											</ul>
+										</article>
+										<article>
+											<a href="#" class="image"><img src="{{games.3.img}}" alt="" /></a>
+											<h3>{{games.3.title}}</h3>
+											<p>{{games.3.description}}</p>
+                                            <p id='genre4' hidden>{% for genre in games.3.genre %}
+                                                {{genre}},&nbsp;
+                                            {% endfor %}
+                                            </p>
+                                            <p id="aftergenre4"></p>
+                                            <script type="text/javascript">
+                                                var str = "";
+                                                str = document.getElementById('genre4').innerHTML;
+                                                str = str.trim();
+                                                document.getElementById('aftergenre4').innerHTML = str.substr(0, str.length-7);
+                                            </script>
+                                            <ul class="actions">
+												<li><a href="#" class="button">More</a></li>
+											</ul>
+										</article>
+										<article>
+											<a href="#" class="image"><img src="{{games.4.img}}" alt="" /></a>
+											<h3>{{games.4.title}}</h3>
+											<p>{{games.4.description}}</p>
+                                            <p id='genre5' hidden>{% for genre in games.4.genre %}
+                                                {{genre}},&nbsp;
+                                            {% endfor %}
+                                            </p>
+                                            <p id="aftergenre5"></p>
+                                            <script type="text/javascript">
+                                                var str = "";
+                                                str = document.getElementById('genre5').innerHTML;
+                                                str = str.trim();
+                                                document.getElementById('aftergenre5').innerHTML = str.substr(0, str.length-7);
+                                            </script>
+											<ul class="actions">
+												<li><a href="#" class="button">More</a></li>
+											</ul>
+										</article>
+										<article>
+											<a href="#" class="image"><img src="{{games.5.img}}" alt="" /></a>
+											<h3>{{games.5.title}}</h3>
+											<p>{{games.5.description}}</p>
+                                            <p id='genre6' hidden>{% for genre in games.5.genre %}
+                                                {{genre}},&nbsp;
+                                            {% endfor %}
+                                            </p>
+                                            <p id="aftergenre6"></p>
+                                            <script type="text/javascript">
+                                                var str = "";
+                                                str = document.getElementById('genre6').innerHTML;
+                                                str = str.trim();
+                                                document.getElementById('aftergenre6').innerHTML = str.substr(0, str.length-7);
+                                            </script>
+											<ul class="actions">
+												<li><a href="#" class="button">More</a></li>
+											</ul>
+										</article>
+									</div>
+								</section>
+                                <footer id="footer">
+                                    <header id="header">
+                                    </header>
+									<ul class="icons">
+										<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+										<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+										<li><a href="#" class="icon fa-snapchat-ghost"><span class="label">Snapchat</span></a></li>
+										<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+										<li><a href="#" class="icon fa-medium"><span class="label">Medium</span></a></li>
+									</ul>
+								</footer>
+
+						</div>
+					</div>
+
+				<!-- Sidebar -->
+					<div id="sidebar">
+						<div class="inner">
+
+							<!-- Search -->
+								<section id="search" class="alt">
+									<form method="post" action="#">
+										<input type="text" name="query" id="query" placeholder="Search" />
+									</form>
+								</section>
+
+							<!-- Menu -->
+								<nav id="menu">
+									<header class="major">
+										<h2>Menu</h2>
+									</header>
+									<ul>
+										<li><a href="{% url 'main' %}">홈페이지</a></li>
+										<li><a href="{% url 'list' %}">게임</a></li>
+										<li>
+											<span class="opener">게임 장르</span>
+                                            <ul>
+                                            <form method="post" action="{% url 'genrelist' %}" id="genre">
+                                                {% csrf_token %}
+                                                <li hidden><input type="text" name="genre" value="" id="selectGenre"></li>
+												<li><a href="#" onclick="sendValue('Massively Multiplayer');">대규모 멀티플레이어</a></li>
+												<li><a href="#" onclick="sendValue('Racing');">레이싱</a></li>
+												<li><a href="#" onclick="sendValue('RPG');">롤 플레잉</a></li>
+												<li><a href="#" onclick="sendValue('Sports');">스포츠</a></li>
+												<li><a href="#" onclick="sendValue('Simulation');">시뮬레이션</a></li>
+												<li><a href="#" onclick="sendValue('Action');">액션</a></li>
+												<li><a href="#" onclick="sendValue('Adventure');">어드벤처</a></li>
+												<li><a href="#" onclick="sendValue('Indie');">인디</a></li>
+												<li><a href="#" onclick="sendValue('Strategy');">전략</a></li>
+												<li><a href="#" onclick="sendValue('Casual');">캐주얼</a></li>
+                                            </form>
+                                            </ul>
+                                            <script>
+                                                function sendValue(value) {
+                                                    document.getElementById('selectGenre').value = value;
+                                                    document.getElementById('genre').submit();
+                                                }
+                                            </script>
+										</li>
+                                        <li><a href="{% url 'login' %}">로그인</a></li>
+									</ul>
+								</nav>
+                            
+							<!-- Footer -->
+								<footer id="footer">
+									<p class="copyright">&copy; Team Project. Big Data System.
+                                        <br>Demo Images: <a href="https://unsplash.com">Unsplash</a>. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+								</footer>
+
+						</div>
+					</div>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="/static/js/jquery.min.js"></script>
+			<script src="/static/js/browser.min.js"></script>
+			<script src="/static/js/breakpoints.min.js"></script>
+			<script src="/static/js/util.js"></script>
+			<script src="/static/js/main.js"></script>
+
+	</body>
+</html>

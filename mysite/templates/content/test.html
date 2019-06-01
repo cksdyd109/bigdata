@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>member/list.html</title>
+<style>
+    .page_display a{
+        text-decoration:none;
+        color: #000;
+    }
+    .page_display a.active{
+        font-weight: bold;
+        color: red;
+        text-decoration: underline;
+    }
+    .page_display a.muted{
+        color:#cecece;
+    }
+</style>
+</head>
+<body>
+<a href="/member/insertform">회원추가</a>
+<h3>회원 목록입니다.</h3>
+<table>
+    <thead>
+        <tr>
+            <th>번호</th>
+            <th>이름</th>
+            <th>주소</th>
+            <th>수정</th>
+            <th>삭제</th>
+        </tr>
+    </thead>
+    <p>{{game}} a</p>
+    <tbody>
+        {% for game in games %}
+        <tr>
+            <td>{{game.title}}</td>
+            <td>{{game.price}}</td>
+            <td>{{game.publisher}}</td>
+        </tr>
+        {% endfor%}
+    </tbody>
+</table>
+<div class="page_display">
+    <!-- 
+        mathfilters 를 사용하려면
+        1. pip install django-mathfilters
+        2. settings.py 에 INSTALLED_APPS 에 'mathfilters' 추가
+        3. 아래에 로딩 표현식 추가
+     -->
+    {% load mathfilters %}
+ 
+    {% if startPageNum != 1 %}
+        <a href="/compsite/list?pageNum={{startPageNum | sub:1}}">[이전]</a>
+    {% else %}
+        <a href="javascript:" class="muted">[이전]</a>
+    {% endif %}
+    
+    {% for i in bottomPages %}
+        {% if i == pageNum %}
+            <a class="active" href="/compsite/list?pageNum={{i }}">{{i }}</a>
+        {% else %}
+            <a href="/compsite/list?pageNum={{i }}">{{i }}</a>
+        {% endif %}
+    {% endfor %}
+    
+    {% if endPageNum < totalPageCount %}
+        <a href="/compsite/list?pageNum={{endPageNum | add:1}}">[다음]</a>
+    {% else %}
+        <a href="javascript:" class="muted">[다음]</a>
+    {% endif %}
+</div>
+</body>
+</html>
