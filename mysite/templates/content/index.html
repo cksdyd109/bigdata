@@ -26,9 +26,12 @@
 									<header class="major">
 										<h2>추천 게임</h2>
 									</header>
+                                    <form method="post" action="{% url 'game' %}" id="gameDetail">
+                                        {% csrf_token %}
 									<div class="posts">
+                                        <p hidden><input type="text" name="gameName" value="" id="gameName"></p>
 										<article>
-											<a href="#" class="image"><img src="{{games.0.img}}" alt="" /></a>
+											<a href="#" class="image" onclick="sendGameValue('{{games.0.title}}')"><img src="{{games.0.img}}" alt="" /></a>
 											<h3>{{games.0.title}}</h3>
 											<p>{{games.0.description}}</p>
                                             <p id='genre1' hidden>{% for genre in games.0.genre %}
@@ -43,11 +46,11 @@
                                                 document.getElementById('aftergenre1').innerHTML = str.substr(0, str.length-7);
                                             </script>
 											<ul class="actions">
-												<li><a href="#" class="button">More</a></li>
+												<li><a href="#" class="button" onclick="sendGameValue('{{games.0.title}}')">More</a></li>
 											</ul>
 										</article>
 										<article>
-											<a href="#" class="image"><img src="{{games.1.img}}" alt="" /></a>
+											<a href="#" class="image" onclick="sendGameValue('{{games.1.title}}')"><img src="{{games.1.img}}" alt="" /></a>
 											<h3>{{games.1.title}}</h3>
 											<p>{{games.1.description}}</p>
                                             <p id='genre2' hidden>{% for genre in games.1.genre %}
@@ -62,11 +65,11 @@
                                                 document.getElementById('aftergenre2').innerHTML = str.substr(0, str.length-7);
                                             </script>
 											<ul class="actions">
-												<li><a href="#" class="button">More</a></li>
+												<li><a href="#" class="button" onclick="sendGameValue('{{games.1.title}}')">More</a></li>
 											</ul>
 										</article>
 										<article>
-											<a href="#" class="image"><img src="{{games.2.img}}" alt="" /></a>
+											<a href="#" class="image" onclick="sendGameValue('{{games.2.title}}')"><img src="{{games.2.img}}" alt="" /></a>
 											<h3>{{games.2.title}}</h3>
 											<p>{{games.2.description}}</p>
                                             <p id='genre3' hidden>{% for genre in games.2.genre %}
@@ -81,11 +84,11 @@
                                                 document.getElementById('aftergenre3').innerHTML = str.substr(0, str.length-7);
                                             </script>
 											<ul class="actions">
-												<li><a href="#" class="button">More</a></li>
+												<li><a href="#" class="button" onclick="sendGameValue('{{games.2.title}}')">More</a></li>
 											</ul>
 										</article>
 										<article>
-											<a href="#" class="image"><img src="{{games.3.img}}" alt="" /></a>
+											<a href="#" class="image" onclick="sendGameValue('{{games.3.title}}')"><img src="{{games.3.img}}" alt="" /></a>
 											<h3>{{games.3.title}}</h3>
 											<p>{{games.3.description}}</p>
                                             <p id='genre4' hidden>{% for genre in games.3.genre %}
@@ -100,11 +103,11 @@
                                                 document.getElementById('aftergenre4').innerHTML = str.substr(0, str.length-7);
                                             </script>
                                             <ul class="actions">
-												<li><a href="#" class="button">More</a></li>
+												<li><a href="#" class="button" onclick="sendGameValue('{{games.3.title}}')">More</a></li>
 											</ul>
 										</article>
 										<article>
-											<a href="#" class="image"><img src="{{games.4.img}}" alt="" /></a>
+											<a href="#" class="image" onclick="sendGameValue('{{games.4.title}}')"><img src="{{games.4.img}}" alt="" /></a>
 											<h3>{{games.4.title}}</h3>
 											<p>{{games.4.description}}</p>
                                             <p id='genre5' hidden>{% for genre in games.4.genre %}
@@ -119,11 +122,11 @@
                                                 document.getElementById('aftergenre5').innerHTML = str.substr(0, str.length-7);
                                             </script>
 											<ul class="actions">
-												<li><a href="#" class="button">More</a></li>
+												<li><a href="#" class="button" onclick="sendGameValue('{{games.4.title}}')">More</a></li>
 											</ul>
 										</article>
 										<article>
-											<a href="#" class="image"><img src="{{games.5.img}}" alt="" /></a>
+											<a href="#" class="image" onclick="sendGameValue('{{games.4.title}}')"><img src="{{games.5.img}}" alt="" /></a>
 											<h3>{{games.5.title}}</h3>
 											<p>{{games.5.description}}</p>
                                             <p id='genre6' hidden>{% for genre in games.5.genre %}
@@ -138,10 +141,17 @@
                                                 document.getElementById('aftergenre6').innerHTML = str.substr(0, str.length-7);
                                             </script>
 											<ul class="actions">
-												<li><a href="#" class="button">More</a></li>
+												<li><a href="#" class="button" onclick="sendGameValue('{{games.5.title}}')">More</a></li>
 											</ul>
 										</article>
 									</div>
+                                    </form>
+                                    <script>
+                                        function sendGameValue(value) {
+                                                    document.getElementById('gameName').value = value;
+                                                    document.getElementById('gameDetail').submit();
+                                                }
+                                    </script>
 								</section>
                                 <footer id="footer">
                                     <header id="header">
