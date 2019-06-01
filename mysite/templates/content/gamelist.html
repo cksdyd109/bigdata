@@ -43,7 +43,8 @@
                                                         <form method="post" action="{% url 'game' %}" id="game{{forloop.counter0}}">
                                                             {% csrf_token %}
                                                             <p hidden><input type="text" name="gameName" value="{{game.title}}"></p>
-                                                            <h3><a href="#" onclick="document.getElementById('game{{forloop.counter0}}').submit();">{{game.title}}</a></h3>
+                                                            <h3>{{game.title}}</h3>
+                                                            <a class = 'button' href="#" onclick="document.getElementById('game{{forloop.counter0}}').submit();">REMOVE</a>
                                                         </form>
                                                         <p class="game_date">{{game.date}}</p>
                                                         <p>{{game.price}}</p>
@@ -148,7 +149,14 @@
                                                 }
                                             </script>
 										</li>
-                                        <li><a href="{% url 'login' %}">로그인</a></li>
+                                        </li>
+										{% if user.is_authenticated %}
+											<li><a href="{% url 'like' %}">즐겨찾기</a></li>
+											<li><a href="{% url 'logout' %}">로그아웃</a></li>
+											Hi {{ user.username }}!
+										{% else %}
+											<li><a href="{% url 'login' %}">로그인</a></li>
+										{% endif %}
 									</ul>
 								</nav>
                             
