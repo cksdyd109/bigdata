@@ -33,23 +33,45 @@ def main(request):
     return render(request, 'content/index.html', {'games':games})
 
 def like(request):
-    # database = client.project
-    # collection = database.user
-    # like_games = []
-    # results = collection.find_one({id: request.user.username})['like']
-    # for result in results:
-    #     like_games.append(result)
-    return render(request, 'content/like.html')
+    like_games = []
+    results = user_coll.find_one({'_id': request.user.username})['games']
+    for result in results:
+        like_games.append(result)
+    return render(request, 'content/like.html',{'like_games':like_games})
 
 def remove(request):
     user = request.user.username
+    game_genre = []
+    like_games = []
     if (request.method == 'POST'):
         game_name = request.POST.get('gameName')
+        game_Img = request.POST.get('gameImg')
+        tempgame_genre = request.POST.get('gameGenre')
 
+<<<<<<< HEAD
+        try:
+            tempgame_genre = re.sub("\'|\[|\]| |temp", '', tempgame_genre)
+            tempStr = tempgame_genre.split(',')
+            for temp in tempStr:
+                game_genre.append(temp)
+        except:
+            pass
+
+        user_coll.update(
+            {'_id' : user},
+            {'$pull': {'games':{"title" : game_name, "img" : game_Img, "genre" : game_genre }}}
+        )
+    results = user_coll.find_one({'_id': request.user.username})['games']
+    for result in results:
+        like_games.append(result)        
+    
+    return render(request, 'content/like.html',{'like_games':like_games})
+=======
         collection.update(
-            {username : user},
-            {$pull: {'like':{title: game_name}}})
+            {'username' : user},
+            {'$pull': {'like':{'title': game_name}}})
     return render(request, 'content/like.html', {'game': game_name})
+>>>>>>> 8fb112efb649182f29ad565e6980d80844994919
 
 def list(request):
     PAGE_ROW_COUNT = 10
@@ -156,7 +178,7 @@ def game(request):
     checkUpdate = False
     if (request.method == 'POST'):
         game_name = request.POST.get('gameName')
-		game_img = request.POST.get('gameImg')
+        game_img = request.POST.get('gameImg')
         tempgame_genre = request.POST.get('gameGenre')
         delete_check = request.POST.get('deleteCheck')
     if (game_img != "" and game_img != None):
@@ -177,7 +199,11 @@ def game(request):
     user = request.user.username
     user_check = user_coll.find({'_id':user, 'games.title': game_name}).count()
     if (checkUpdate and delete_check == '0'):
-        user_coll.update_one({'_id': user}, {'$push': {'games': {'title': game_name, 'img': game_img, 'genre':game_genre}}})
+        if(user_coll.find({'_id':user}).count() == 0 ):
+            user_coll.insert_one({'_id': user, 'games': [{'title': game_name, 'img': game_img, 'genre':game_genre}]})
+        else:
+            user_coll.update_one({'_id': user}, {'$push': {'games': {'title': game_name, 'img': game_img, 'genre':game_genre}}})
+        
         user_check = user_coll.find({'_id': user, 'games.title': game_name}).count()
     elif (delete_check == '1'):
         user_coll.update_one({'_id': user}, {'$pull': {'games': {'title': game_name, 'img': game_img, 'genre':game_genre}}})
