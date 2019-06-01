@@ -40,9 +40,10 @@
                                                         <img src="{{game.img}}">
                                                     </span>
                                                     <div>
-                                                        <form method="post">
+                                                        <form method="post" action="{% url 'game' %}" id="game{{forloop.counter0}}">
                                                             {% csrf_token %}
-                                                            <h2 class="elements" name="test"><a href="#" onclick="document.getElementById('test').submit();">{{game.title}}</a></h2>
+                                                            <p hidden><input type="text" name="gameName" value="{{game.title}}"></p>
+                                                            <h3><a href="#" onclick="document.getElementById('game{{forloop.counter0}}').submit();">{{game.title}}</a></h3>
                                                         </form>
                                                         <p class="game_date">{{game.date}}</p>
                                                         <p>{{game.price}}</p>

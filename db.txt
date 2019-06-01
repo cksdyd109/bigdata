@@ -1,0 +1,41 @@
+#title, img, description, price, genre, developer, publisher, date
+
+---------게임----------
+title
+img
+description
+genre
+developer
+publisher
+date
+prices: [
+	{
+		store_name
+		url
+		normal_price
+		sale_price
+	},
+	{
+		store_name
+		url
+		normal_price
+		sale_price
+	},
+	...
+]
+
+----------유저----------
+_id
+games: [
+	{
+		title
+		img
+		genre
+	},
+	{
+		title
+		img
+		genre
+	},
+	...
+]

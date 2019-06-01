@@ -3,15 +3,18 @@ from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+import re
 from django.contrib import messages
 from pymongo import MongoClient
 
 client = MongoClient('localhost', 27017)
 database = client.project
 collection = database.steam
+user_coll = database.user
 
 game_name = ""
 genre = ""
+tempgame_genre = "temp"
 
 # Create your views here.
 class SignUp(generic.CreateView):
@@ -146,7 +149,39 @@ def genrelist(request):
 
 def game(request):
     global game_name
+    global tempgame_genre
+    game = []
+    game_genre = []
+    game_img = ""
+    checkUpdate = False
     if (request.method == 'POST'):
         game_name = request.POST.get('gameName')
-    return render(request, 'content/test.html', {'game': game_name})
+		game_img = request.POST.get('gameImg')
+        tempgame_genre = request.POST.get('gameGenre')
+        delete_check = request.POST.get('deleteCheck')
+    if (game_img != "" and game_img != None):
+        checkUpdate = True
+    nameStr = '^' + game_name + '$'
+
+    informs = collection.find({'title': {'$regex': nameStr}}).limit(1)
+    for inform in informs:
+        game = inform
+    try:
+        tempgame_genre = re.sub("\'|\[|\]| |temp", '', tempgame_genre)
+        tempStr = tempgame_genre.split(',')
+        for temp in tempStr:
+            game_genre.append(temp)
+    except:
+        pass
+
+    user = request.user.username
+    user_check = user_coll.find({'_id':user, 'games.title': game_name}).count()
+    if (checkUpdate and delete_check == '0'):
+        user_coll.update_one({'_id': user}, {'$push': {'games': {'title': game_name, 'img': game_img, 'genre':game_genre}}})
+        user_check = user_coll.find({'_id': user, 'games.title': game_name}).count()
+    elif (delete_check == '1'):
+        user_coll.update_one({'_id': user}, {'$pull': {'games': {'title': game_name, 'img': game_img, 'genre':game_genre}}})
+        user_check = user_coll.find({'_id': user, 'games.title': game_name}).count()
+    return render(request, 'content/gamedetail.html', {'game': game, 'usered':user,
+                                                       'userCheck': user_check, 'test': game_genre})
 

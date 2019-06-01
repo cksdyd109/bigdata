@@ -1,0 +1,214 @@
+<!DOCTYPE HTML>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+{% load static %}
+{% load mathfilters %}
+<html>
+	<head>
+		<title>Editorial by HTML5 UP</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="{% static 'css/main.css' %}" />
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+
+							<!-- Section -->
+								<section>
+									<header class="major">
+										<h2>{{game.title}}</h2>
+									</header>
+                                    <article>
+                                        <div class="row">
+                                            <div class="col-6 col-12-small" style="margin-left: 4em;">
+                                                <span class="image fit" style="width: 90%; transform: translateY(-50%); top: 50%;">
+                                                    <img src="{{game.img}}">
+                                                </span>
+                                            </div>
+                                            <div class="col-4 col-12-small" style="margin-left: 3em">
+                                            <h4>Game Information</h4>
+                                            <table>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Developer</td>
+                                                        <td>{{game.developer}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Publisher</td>
+                                                        <td>{{game.publisher}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Released</td>
+                                                        <td>{{game.date}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Genre</td>
+                                                        <td>
+                                                            {% for genre in game.genre %}
+                                                                {% if genre == game.genre.0 %}
+                                                                    {{genre}}
+                                                                {% else %}
+                                                                    ,&nbsp;{{genre}}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            </div>
+                                        </div>
+                                        <form method="post" action="{% url 'game' %}" id="favorite">
+                                            {% csrf_token %}
+                                            <div>
+                                                {% if user.is_authenticated %}
+                                                    <p hidden><input type="text" name="gameName" value="{{game.title}}"></p>
+                                                    <p hidden><input type="text" name="gameImg" value="{{game.img}}"></p>
+                                                    <p hidden><input type="text" name="gameGenre" value="{{game.genre}}"></p>
+                                                    {% if userCheck == 0 %}
+                                                        <p hidden><input type="text" name="deleteCheck" value="0"></p>
+                                                        <a href="#" class="button primary icon fa-star" onclick="document.getElementById('favorite').submit();"> Favorites</a>
+                                                    {% else %}
+                                                        <p hidden><input type="text" name="deleteCheck" value="1"></p>
+                                                        <a href="#" class="button icon fa-star" onclick="document.getElementById('favorite').submit();"> Favorites Cancel</a>
+                                                    {% endif %}
+                                                {% endif %}
+                                            </div>
+                                        </form>
+                                        <br><br>
+                                        <div class="row">
+                                            <div class="col-8 col-12-medium">
+                                                <h4>Game Description</h4>
+                                                <hr>
+                                                <p>{{game.description}}</p>
+                                            </div>
+                                        </div>
+                                        <br><br>
+                                        <div class="row">
+                                            <div class="col-2 col-12-medium">
+                                                <h4>Prices</h4>
+                                            </div>
+                                            <hr class="major col-12 col-12-medium" style="margin-top: 0em; width: 95%; margin-left: 1.5em; margin-bottom: 2em">
+                                            <table style="width: 95%; margin-left: 1.5em;">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Store</th>
+                                                        <th>Price Cut</th>
+                                                        <th>Normal Price</th>
+                                                        <th>Sale Price</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+<!--
+                                                    {% for price in games.prices %}
+                                                        <tr>
+                                                            <td><a href="{{price.url}}">{{price.store_name}}</a></td>
+                                                            <td>{{ price.sale_price|div:price.normal_price|mul:100|sub:100 }}%</td>
+                                                            <td>{{price.normal_price}}</td>
+                                                            <td>{{price.sale_price}}</td>
+                                                        </tr>
+                                                    {% endfor %}
+-->
+                                                </tbody>
+                                            </table>
+                                            
+                                            <div class="col-8 col-12-medium">
+                                            </div>
+                                        </div>
+                                        
+                                        
+                                    </article>
+                                    
+                                    
+								</section>
+                                <footer id="footer">
+                                    <header id="header">
+                                    </header>
+									<ul class="icons">
+										<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+										<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+										<li><a href="#" class="icon fa-snapchat-ghost"><span class="label">Snapchat</span></a></li>
+										<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+										<li><a href="#" class="icon fa-medium"><span class="label">Medium</span></a></li>
+									</ul>
+								</footer>
+
+						</div>
+					</div>
+
+				<!-- Sidebar -->
+					<div id="sidebar">
+						<div class="inner">
+
+							<!-- Search -->
+								<section id="search" class="alt">
+									<form method="post" action="#">
+										<input type="text" name="query" id="query" placeholder="Search" />
+									</form>
+								</section>
+
+							<!-- Menu -->
+								<nav id="menu">
+									<header class="major">
+										<h2>Menu</h2>
+									</header>
+									<ul>
+										<li><a href="{% url 'main' %}">홈페이지</a></li>
+										<li><a href="{% url 'list' %}">게임</a></li>
+										<li>
+											<span class="opener">게임 장르</span>
+                                            <ul>
+                                            <form method="post" action="{% url 'genrelist' %}" id="genre">
+                                                {% csrf_token %}
+                                                <li hidden><input type="text" name="genre" value="" id="selectGenre"></li>
+												<li><a href="#" onclick="sendValue('Massively Multiplayer');">대규모 멀티플레이어</a></li>
+												<li><a href="#" onclick="sendValue('Racing');">레이싱</a></li>
+												<li><a href="#" onclick="sendValue('RPG');">롤 플레잉</a></li>
+												<li><a href="#" onclick="sendValue('Sports');">스포츠</a></li>
+												<li><a href="#" onclick="sendValue('Simulation');">시뮬레이션</a></li>
+												<li><a href="#" onclick="sendValue('Action');">액션</a></li>
+												<li><a href="#" onclick="sendValue('Adventure');">어드벤처</a></li>
+												<li><a href="#" onclick="sendValue('Indie');">인디</a></li>
+												<li><a href="#" onclick="sendValue('Strategy');">전략</a></li>
+												<li><a href="#" onclick="sendValue('Casual');">캐주얼</a></li>
+                                            </form>
+                                            </ul>
+                                            <script>
+                                                function sendValue(value) {
+                                                    document.getElementById('selectGenre').value = value;
+                                                    document.getElementById('genre').submit();
+                                                }
+                                            </script>
+										</li>
+                                        <li><a href="{% url 'login' %}">로그인</a></li>
+									</ul>
+								</nav>
+                            
+							<!-- Footer -->
+								<footer id="footer">
+									<p class="copyright">&copy; Team Project. Big Data System.
+                                        <br>Demo Images: <a href="https://unsplash.com">Unsplash</a>. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+								</footer>
+
+						</div>
+					</div>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="/static/js/jquery.min.js"></script>
+			<script src="/static/js/browser.min.js"></script>
+			<script src="/static/js/breakpoints.min.js"></script>
+			<script src="/static/js/util.js"></script>
+			<script src="/static/js/main.js"></script>
+
+	</body>
+</html>
