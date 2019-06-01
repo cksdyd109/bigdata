@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
-from django.shortcuts import render
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 import re
 from django.contrib import messages
@@ -32,6 +31,25 @@ def main(request):
     for inform in informs:
         games.append(inform)
     return render(request, 'content/index.html', {'games':games})
+
+def like(request):
+    # database = client.project
+    # collection = database.user
+    # like_games = []
+    # results = collection.find_one({id: request.user.username})['like']
+    # for result in results:
+    #     like_games.append(result)
+    return render(request, 'content/like.html')
+
+def remove(request):
+    user = request.user.username
+    if (request.method == 'POST'):
+        game_name = request.POST.get('gameName')
+
+        collection.update(
+            {'username' : user},
+            {'$pull': {'like':{'title': game_name}}})
+    return render(request, 'content/like.html', {'game': game_name})
 
 def list(request):
     PAGE_ROW_COUNT = 10
@@ -166,3 +184,4 @@ def game(request):
         user_check = user_coll.find({'_id': user, 'games.title': game_name}).count()
     return render(request, 'content/gamedetail.html', {'game': game, 'usered':user,
                                                        'userCheck': user_check, 'test': game_genre})
+

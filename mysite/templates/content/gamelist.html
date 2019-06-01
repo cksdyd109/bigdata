@@ -46,7 +46,7 @@
                                                             <h3><a href="#" onclick="document.getElementById('game{{forloop.counter0}}').submit();">{{game.title}}</a></h3>
                                                         </form>
                                                         <p class="game_date">{{game.date}}</p>
-                                                        <p>{{game.price}}</p>
+                                                        <p>{{game.price}}원</p>
                                                         <p id='genre{{i}}'>
                                                             {% for genre in game.genre %}
                                                                 {% if genre == game.genre.0 %}
@@ -148,7 +148,14 @@
                                                 }
                                             </script>
 										</li>
-                                        <li><a href="{% url 'login' %}">로그인</a></li>
+                                        </li>
+										{% if user.is_authenticated %}
+											<li><a href="{% url 'like' %}">즐겨찾기</a></li>
+											<li><a href="{% url 'logout' %}">로그아웃</a></li>
+											Hi {{ user.username }}!
+										{% else %}
+											<li><a href="{% url 'login' %}">로그인</a></li>
+										{% endif %}
 									</ul>
 								</nav>
                             

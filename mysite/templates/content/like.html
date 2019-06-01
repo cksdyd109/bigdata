@@ -23,32 +23,29 @@
                             <header id="header">
 								    
                                 <div id="search" class="alt">
-                                    <h2>검색</h2>
-									<form method="post" action="{% url 'genrelist' %}">
-                                        {% csrf_token %}
-										<input type="text" name="searching" id="query" placeholder="Search" />
-									</form>
+                                    <h2>즐겨찾기</h2>
 								</div>
 								</header>
                                 <section>
                                     <article>
                                         <ul class="alt">
-                                            {% for game in games %}
+                                            {% for like_game in like_games %}
                                             <li>
                                                 <div class="row" style="margin-left: 0em">
                                                     <span class="image left" style="width: 28%">
-                                                        <img src="{{game.img}}">
+                                                        <img src="{{like_game.img}}">
                                                     </span>
                                                     <div>
-                                                        <form method="post" action="{% url 'game' %}" id="game{{forloop.counter0}}">
+                                                        <form method="post" action="{% url 'remove' %}" id="game{{forloop.counter0}}">
                                                             {% csrf_token %}
                                                             <p hidden><input type="text" name="gameName" value="{{game.title}}"></p>
-                                                            <h3><a href="#" onclick="document.getElementById('game{{forloop.counter0}}').submit();">{{game.title}}</a></h3>
+                                                            <h3>{{like_game.title}}</h3>
+                                                            <a class = 'button' href="#" onclick="document.getElementById('game{{forloop.counter0}}').submit();">REMOVE</a>
                                                         </form>
-                                                        <p class="game_date">{{game.date}}</p>
-                                                        <p>{{game.price}}</p>
+                                                        <p class="game_date">{{like_game.date}}</p>
+                                                        <p>{{like_game.price}}</p>
                                                         <p id='genre{{i}}'>
-                                                            {% for genre in game.genre %}
+                                                            {% for genre in like_game.genre %}
                                                                 {% if genre == game.genre.0 %}
                                                                     {{genre}}
                                                                 {% else %}
@@ -68,21 +65,21 @@
                                     <ul class="pagination">
                                         
                                         {% if startPageNum != 1 %}
-                                            <li><a href="/compsite/genrelist?pageNum={{startPageNum | sub:1}}" class="button">이전</a></li>
+                                            <li><a href="/compsite/list?pageNum={{startPageNum | sub:1}}" class="button">이전</a></li>
                                         {% else %}
                                             <li><a href="#" class="button disabled">이전</a></li>
                                         {% endif %}
                                         
                                         {% for i in bottomPages %}
                                             {% if i == pageNum %}
-                                                <li><a href="/compsite/genrelist?pageNum={{i}}" class="page active">{{i}}</a></li>
+                                                <li><a href="/compsite/list?pageNum={{i}}" class="page active">{{i}}</a></li>
                                             {% else %}
-                                                <li><a href="/compsite/genrelist?pageNum={{i}}" class="page">{{i}}</a></li>
+                                                <li><a href="/compsite/list?pageNum={{i}}" class="page">{{i}}</a></li>
                                             {% endif %}
                                         {% endfor %}
                                         
                                         {% if endPageNum < totalPageCount %}
-                                            <li><a href="/compsite/genrelist?pageNum={{endPageNum | add:1}}" class="button">다음</a></li>
+                                            <li><a href="/compsite/list?pageNum={{endPageNum | add:1}}" class="button">다음</a></li>
                                         {% else %}
                                             <li><a href="#" class="button disabled">다음</a></li>
                                         {% endif %}
@@ -123,7 +120,7 @@
 									<ul>
 										<li><a href="{% url 'main' %}">홈페이지</a></li>
 										<li><a href="{% url 'list' %}">게임</a></li>
-										<li>
+                                        <li>
 											<span class="opener">게임 장르</span>
                                             <ul>
                                             <form method="post" action="{% url 'genrelist' %}" id="genresearch">

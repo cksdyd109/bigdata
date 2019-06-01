@@ -31,9 +31,10 @@
                                         <div class="col-4 col-12-medium"></div>
 										<div id="login" style="text-align: center" class="col-4 col-12-medium">
 											<form method="post">
-											  {% csrf_token %}
-											  {{ form.as_p }}
-											  <button type="submit">Login</button>
+												{% csrf_token %}
+												{{ form.as_p }}
+												<button type="submit">Login</button>
+												<a class = 'button' href="{% url 'signup' %}">signup</a>
 											</form>
 										</div>
                                         <div class="col-4 col-12-medium"></div>
