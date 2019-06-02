@@ -28,11 +28,11 @@
 									</header>
                                     <form method="post" action="{% url 'game' %}" id="gameDetail">
                                         {% csrf_token %}
+                                    <p hidden><input type="text" name="gameName" value="" id="gameName"></p>
 									<div class="posts">
-                                        <p hidden><input type="text" name="gameName" value="" id="gameName"></p>
 										<article>
-											<a href="#" class="image" onclick="sendGameValue('{{games.0.title}}')"><img src="{{games.0.img}}" alt="" /></a>
-											<h3>{{games.0.title}}</h3>
+											<a href="#" class="image" onclick="sendGameValue(document.getElementById('name1').value)"><img src="{{games.0.img}}" alt="" /></a>
+											<h3 id="name1">{{games.0.title}}</h3>
 											<p>{{games.0.description}}</p>
                                             <p id='genre1' hidden>{% for genre in games.0.genre %}
                                                 {{genre}},&nbsp;
@@ -44,14 +44,16 @@
                                                 str = document.getElementById('genre1').innerHTML;
                                                 str = str.trim();
                                                 document.getElementById('aftergenre1').innerHTML = str.substr(0, str.length-7);
+                                                var temp = document.getElementById('name1').innerHTML.replace(/\'/g, '\\\'');
+                                                document.getElementById('name1').value = temp;
                                             </script>
 											<ul class="actions">
 												<li><a href="#" class="button" onclick="sendGameValue('{{games.0.title}}')">More</a></li>
 											</ul>
 										</article>
-										<article>
-											<a href="#" class="image" onclick="sendGameValue('{{games.1.title}}')"><img src="{{games.1.img}}" alt="" /></a>
-											<h3>{{games.1.title}}</h3>
+                                        <article>
+											<a href="#" class="image" onclick="sendGameValue(document.getElementById('name2').value)"><img src="{{games.1.img}}" alt="" /></a>
+											<h3 id="name2">{{games.1.title}}</h3>
 											<p>{{games.1.description}}</p>
                                             <p id='genre2' hidden>{% for genre in games.1.genre %}
                                                 {{genre}},&nbsp;
@@ -63,14 +65,16 @@
                                                 str = document.getElementById('genre2').innerHTML;
                                                 str = str.trim();
                                                 document.getElementById('aftergenre2').innerHTML = str.substr(0, str.length-7);
+                                                var temp = document.getElementById('name2').innerHTML.replace(/\'/g, '\\\'');
+                                                document.getElementById('name2').value = temp;
                                             </script>
 											<ul class="actions">
 												<li><a href="#" class="button" onclick="sendGameValue('{{games.1.title}}')">More</a></li>
 											</ul>
 										</article>
 										<article>
-											<a href="#" class="image" onclick="sendGameValue('{{games.2.title}}')"><img src="{{games.2.img}}" alt="" /></a>
-											<h3>{{games.2.title}}</h3>
+											<a href="#" class="image" onclick="sendGameValue(document.getElementById('name3').value)"><img src="{{games.2.img}}" alt="" /></a>
+											<h3 id="name3">{{games.2.title}}</h3>
 											<p>{{games.2.description}}</p>
                                             <p id='genre3' hidden>{% for genre in games.2.genre %}
                                                 {{genre}},&nbsp;
@@ -82,14 +86,16 @@
                                                 str = document.getElementById('genre3').innerHTML;
                                                 str = str.trim();
                                                 document.getElementById('aftergenre3').innerHTML = str.substr(0, str.length-7);
+                                                var temp = document.getElementById('name3').innerHTML.replace(/\'/g, '\\\'');
+                                                document.getElementById('name3').value = temp;
                                             </script>
 											<ul class="actions">
 												<li><a href="#" class="button" onclick="sendGameValue('{{games.2.title}}')">More</a></li>
 											</ul>
 										</article>
 										<article>
-											<a href="#" class="image" onclick="sendGameValue('{{games.3.title}}')"><img src="{{games.3.img}}" alt="" /></a>
-											<h3>{{games.3.title}}</h3>
+											<a href="#" class="image" onclick="sendGameValue(document.getElementById('name4').value)"><img src="{{games.3.img}}" alt="" /></a>
+											<h3 id="name4">{{games.3.title}}</h3>
 											<p>{{games.3.description}}</p>
                                             <p id='genre4' hidden>{% for genre in games.3.genre %}
                                                 {{genre}},&nbsp;
@@ -101,14 +107,16 @@
                                                 str = document.getElementById('genre4').innerHTML;
                                                 str = str.trim();
                                                 document.getElementById('aftergenre4').innerHTML = str.substr(0, str.length-7);
+                                                var temp = document.getElementById('name4').innerHTML.replace(/\'/g, '\\\'');
+                                                document.getElementById('name4').value = temp;
                                             </script>
                                             <ul class="actions">
 												<li><a href="#" class="button" onclick="sendGameValue('{{games.3.title}}')">More</a></li>
 											</ul>
 										</article>
 										<article>
-											<a href="#" class="image" onclick="sendGameValue('{{games.4.title}}')"><img src="{{games.4.img}}" alt="" /></a>
-											<h3>{{games.4.title}}</h3>
+											<a href="#" class="image" onclick="sendGameValue(document.getElementById('name5').value)"><img src="{{games.4.img}}" alt="" /></a>
+											<h3 id="name5">{{games.4.title}}</h3>
 											<p>{{games.4.description}}</p>
                                             <p id='genre5' hidden>{% for genre in games.4.genre %}
                                                 {{genre}},&nbsp;
@@ -120,14 +128,16 @@
                                                 str = document.getElementById('genre5').innerHTML;
                                                 str = str.trim();
                                                 document.getElementById('aftergenre5').innerHTML = str.substr(0, str.length-7);
+                                                var temp = document.getElementById('name5').innerHTML.replace(/\'/g, '\\\'');
+                                                document.getElementById('name5').value = temp;
                                             </script>
 											<ul class="actions">
 												<li><a href="#" class="button" onclick="sendGameValue('{{games.4.title}}')">More</a></li>
 											</ul>
 										</article>
 										<article>
-											<a href="#" class="image" onclick="sendGameValue('{{games.4.title}}')"><img src="{{games.5.img}}" alt="" /></a>
-											<h3>{{games.5.title}}</h3>
+											<a href="#" class="image" onclick="sendGameValue(document.getElementById('name6').value)"><img src="{{games.5.img}}" alt="" /></a>
+											<h3 id="name6">{{games.5.title}}</h3>
 											<p>{{games.5.description}}</p>
                                             <p id='genre6' hidden>{% for genre in games.5.genre %}
                                                 {{genre}},&nbsp;
@@ -139,6 +149,8 @@
                                                 str = document.getElementById('genre6').innerHTML;
                                                 str = str.trim();
                                                 document.getElementById('aftergenre6').innerHTML = str.substr(0, str.length-7);
+                                                var temp = document.getElementById('name6').innerHTML.replace(/\'/g, '\\\'');
+                                                document.getElementById('name6').value = temp;
                                             </script>
 											<ul class="actions">
 												<li><a href="#" class="button" onclick="sendGameValue('{{games.5.title}}')">More</a></li>
@@ -147,8 +159,9 @@
 									</div>
                                     </form>
                                     <script>
-                                        function sendGameValue(value) {
-                                                    document.getElementById('gameName').value = value;
+                                        function sendGameValue(values) {
+                                                    
+                                                    document.getElementById('gameName').value = values;
                                                     document.getElementById('gameDetail').submit();
                                                 }
                                     </script>
@@ -173,10 +186,12 @@
 						<div class="inner">
 
 							<!-- Search -->
-								<section id="search" class="alt">
-									<form method="post" action="#">
-										<input type="text" name="query" id="query" placeholder="Search" />
-									</form>
+								<section id="search" class="alt" style="text-align: center;">
+                                    {% if user.is_authenticated %}
+                                        <h2>Hi {{user.username}}</h2>
+                                    {% else %}
+                                        <h2>Hi Guest</h2>
+                                    {% endif %}
 								</section>
 
 							<!-- Menu -->
@@ -215,7 +230,6 @@
 										{% if user.is_authenticated %}
 											<li><a href="{% url 'like' %}">즐겨찾기</a></li>
 											<li><a href="{% url 'logout' %}">로그아웃</a></li>
-											Hi {{ user.username }}!
 										{% else %}
 											<li><a href="{% url 'login' %}">로그인</a></li>
 										{% endif %}

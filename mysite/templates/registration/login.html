@@ -59,10 +59,12 @@
 						<div class="inner">
 
 							<!-- Search -->
-								<section id="search" class="alt">
-									<form method="post" action="#">
-										<input type="text" name="query" id="query" placeholder="Search" />
-									</form>
+								<section id="search" class="alt" style="text-align: center;">
+                                    {% if user.is_authenticated %}
+                                        <h2>Hi {{user.username}}</h2>
+                                    {% else %}
+                                        <h2>Hi Guest</h2>
+                                    {% endif %}
 								</section>
 
 							<!-- Menu -->

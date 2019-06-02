@@ -4,17 +4,21 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 import re
+import numpy as np
+import math
 from django.contrib import messages
 from pymongo import MongoClient
 
 client = MongoClient('localhost', 27017)
 database = client.project
-collection = database.steam
+collection = database.games
+othersites = database.othersite
 user_coll = database.user
 
 game_name = ""
 genre = ""
 tempgame_genre = "temp"
+
 
 # Create your views here.
 class SignUp(generic.CreateView):
@@ -27,7 +31,71 @@ def login(request):
 
 def main(request):
     games = []
-    informs = collection.find({}, {'_id':0}).limit(6)
+    username = request.user.username
+    if (username == "" or username == None):
+        informs = collection.find({}, {'_id': 0}).limit(6)
+    else:
+        min1 = []
+        min2 = []
+        pipelines = list()
+        pipelines.append({'$unwind': "$games"})
+        pipelines.append({'$unwind': "$games.genre"})
+        pipelines.append({'$project': {'_id': 1, 'test': "$games.genre"}})
+        pipelines.append({'$group': {'_id': "$_id", 'genres': {'$push': "$test"}}})
+        pipelines.append({'$match': {'_id':username}})
+
+        matrix = np.empty((0, 10))
+        forCount = ['Action', 'Adventure', 'Casual', 'Indie', 'Massively Multiplayer', 'Racing', 'RPG', 'Simulation',
+                    'Sports', 'Strategy']
+        results = user_coll.aggregate(pipelines)
+        for result in results:
+            user = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])
+            for i in range(len(result['genres'])):
+                for j in range(len(forCount)):
+                    if (result['genres'][i] == forCount[j]):
+                        user[0][j] = user[0][j] + 1
+            matrix = np.append(matrix, user, axis=0)
+
+        del pipelines[-1]
+        pipelines.append({'$match': {'_id': {'$ne':username}}})
+        results = user_coll.aggregate(pipelines)
+
+        for result in results:
+            user = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])
+            for i in range(len(result['genres'])):
+                for j in range(len(forCount)):
+                    if (result['genres'][i] == forCount[j]):
+                        user[0][j] = user[0][j] + 1
+            matrix = np.append(matrix, user, axis=0)
+
+        for i in range(len(matrix)):
+            result = 0.0
+            sum = 0
+            for j in range(len(matrix[i])):
+                if (matrix[0][j] == 0):
+                    continue
+                print(forCount[j], matrix[0][j])
+                temp = matrix[0][j] - matrix[i][j]
+                sum = sum + temp ** 2
+            result = math.sqrt(float(sum))
+            if (i == 1):
+                min1 = [i, result]
+                min2 = min1
+            elif (i > 1):
+                if (min1[1] > result):
+                    min1 = [i, result]
+                    min2 = min1
+                elif (min2[1] > result):
+                    min2 = [i, result]
+
+        max = 0
+        for i in range(len(forCount)):
+            avg = (matrix[min1[0]][i]+matrix[min2[0]][i])/2
+            if (max < avg):
+                max = i
+
+        informs = collection.find({'genre': {'$all': [forCount[max]]}}, {'_id': 0}).limit(6)
+
     for inform in informs:
         games.append(inform)
     return render(request, 'content/index.html', {'games':games})
@@ -51,7 +119,7 @@ def remove(request):
             {'$pull': {'like':{'title': game_name}}})
     return render(request, 'content/like.html', {'game': game_name})
 
-def list(request):
+def glist(request):
     PAGE_ROW_COUNT = 10
     PAGE_DISPLAY_COUNT = 5
     games = []
@@ -156,7 +224,7 @@ def game(request):
     checkUpdate = False
     if (request.method == 'POST'):
         game_name = request.POST.get('gameName')
-		game_img = request.POST.get('gameImg')
+        game_img = request.POST.get('gameImg')
         tempgame_genre = request.POST.get('gameGenre')
         delete_check = request.POST.get('deleteCheck')
     if (game_img != "" and game_img != None):
@@ -164,6 +232,8 @@ def game(request):
     nameStr = '^' + game_name + '$'
 
     informs = collection.find({'title': {'$regex': nameStr}}).limit(1)
+    siteinform = othersites.find({'_id': {'$regex': game_name, '$options': 'i'}}).limit(1)
+    
     for inform in informs:
         game = inform
     try:
@@ -177,11 +247,16 @@ def game(request):
     user = request.user.username
     user_check = user_coll.find({'_id':user, 'games.title': game_name}).count()
     if (checkUpdate and delete_check == '0'):
-        user_coll.update_one({'_id': user}, {'$push': {'games': {'title': game_name, 'img': game_img, 'genre':game_genre}}})
+        if (user_coll.find({'_id': user}).count() == 0):
+            user_coll.insert_one({'_id': user, 'games': [{'title': game_name, 'img': game_img, 'genre': game_genre}]})
+        else:
+            user_coll.update_one({'_id': user},
+                                 {'$push': {'games': {'title': game_name, 'img': game_img, 'genre': game_genre}}})
         user_check = user_coll.find({'_id': user, 'games.title': game_name}).count()
     elif (delete_check == '1'):
         user_coll.update_one({'_id': user}, {'$pull': {'games': {'title': game_name, 'img': game_img, 'genre':game_genre}}})
         user_check = user_coll.find({'_id': user, 'games.title': game_name}).count()
+
     return render(request, 'content/gamedetail.html', {'game': game, 'usered':user,
-                                                       'userCheck': user_check, 'test': game_genre})
+                                                       'userCheck': user_check, 'test': game_genre, 'sites': siteinform})
 

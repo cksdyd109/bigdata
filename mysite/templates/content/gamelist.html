@@ -43,11 +43,9 @@
                                                         <form method="post" action="{% url 'game' %}" id="game{{forloop.counter0}}">
                                                             {% csrf_token %}
                                                             <p hidden><input type="text" name="gameName" value="{{game.title}}"></p>
-                                                            <h3>{{game.title}}</h3>
-                                                            <a class = 'button' href="#" onclick="document.getElementById('game{{forloop.counter0}}').submit();">REMOVE</a>
+                                                            <h3><a href="#" onclick="document.getElementById('game{{forloop.counter0}}').submit();">{{game.title}}</a></h3>
                                                         </form>
                                                         <p class="game_date">{{game.date}}</p>
-                                                        <p>{{game.price}}원</p>
                                                         <p id='genre{{i}}'>
                                                             {% for genre in game.genre %}
                                                                 {% if genre == game.genre.0 %}
@@ -110,10 +108,12 @@
 						<div class="inner">
 
 							<!-- Search -->
-								<section id="search" class="alt">
-									<form method="post" action="#">
-										<input type="text" name="query" id="query" placeholder="Search" />
-									</form>
+								<section id="search" class="alt" style="text-align: center;">
+                                    {% if user.is_authenticated %}
+                                        <h2>Hi {{user.username}}</h2>
+                                    {% else %}
+                                        <h2>Hi Guest</h2>
+                                    {% endif %}
 								</section>
 
 							<!-- Menu -->
@@ -153,7 +153,6 @@
 										{% if user.is_authenticated %}
 											<li><a href="{% url 'like' %}">즐겨찾기</a></li>
 											<li><a href="{% url 'logout' %}">로그아웃</a></li>
-											Hi {{ user.username }}!
 										{% else %}
 											<li><a href="{% url 'login' %}">로그인</a></li>
 										{% endif %}
