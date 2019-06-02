@@ -36,23 +36,23 @@
                                                         <img src="{{like_game.img}}">
                                                     </span>
                                                     <div>
-                                                        <form method="post" action="{% url 'remove' %}" id="game{{forloop.counter0}}">
+                                                        <form method="post" action="{% url 'remove' %}" id="like_game{{forloop.counter0}}">
                                                             {% csrf_token %}
-                                                            <p hidden><input type="text" name="gameName" value="{{game.title}}"></p>
+                                                            <p hidden><input type="text" name="gameName" value="{{like_game.title}}"></p>
+                                                    		<p hidden><input type="text" name="gameImg" value="{{like_game.img}}"></p>
+                                                    		<p hidden><input type="text" name="gameGenre" value="{{like_game.genre}}"></p>
                                                             <h3>{{like_game.title}}</h3>
-                                                            <a class = 'button' href="#" onclick="document.getElementById('game{{forloop.counter0}}').submit();">REMOVE</a>
+	                                                        <p id='genre{{i}}'>
+	                                                            {% for genre in like_game.genre %}
+	                                                                {% if genre == like_game.genre.0 %}
+	                                                                    {{genre}}
+	                                                                {% else %}
+	                                                                    ,&nbsp;{{genre}}
+	                                                                {% endif %}
+	                                                            {% endfor %}
+	                                                        </p>
+	                                                        <a class = 'button' href="#" onclick="document.getElementById('like_game{{forloop.counter0}}').submit();">REMOVE</a>
                                                         </form>
-                                                        <p class="game_date">{{like_game.date}}</p>
-                                                        <p>{{like_game.price}}</p>
-                                                        <p id='genre{{i}}'>
-                                                            {% for genre in like_game.genre %}
-                                                                {% if genre == game.genre.0 %}
-                                                                    {{genre}}
-                                                                {% else %}
-                                                                    ,&nbsp;{{genre}}
-                                                                {% endif %}
-                                                            {% endfor %}
-                                                        </p>
                                                     </div>
                                                 </div>
                                             </li>
