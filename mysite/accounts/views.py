@@ -1,13 +1,18 @@
 from django.shortcuts import render
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
-from django.views import generic
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from pymongo import MongoClient
+from matplotlib import pylab
+from matplotlib import font_manager, rc
+from pylab import *
+import PIL, PIL.Image
+import io
+import base64
+from django.views import generic
 import re
 import numpy as np
 import math
-from django.contrib import messages
-from pymongo import MongoClient
 
 client = MongoClient('localhost', 27017)
 database = client.project
@@ -19,6 +24,8 @@ game_name = ""
 genre = ""
 tempgame_genre = "temp"
 
+font_name = font_manager.FontProperties(fname='c:/Windows/Fonts/malgun.ttf').get_name()
+rc('font', family=font_name)
 
 # Create your views here.
 class SignUp(generic.CreateView):
@@ -32,17 +39,18 @@ def login(request):
 def main(request):
     games = []
     username = request.user.username
-    if (username == "" or username == None):
+    if (username == "" or username == None or user_coll.find().count() == 0):
         informs = collection.find({}, {'_id': 0}).limit(6)
     else:
         min1 = []
         min2 = []
+
         pipelines = list()
         pipelines.append({'$unwind': "$games"})
         pipelines.append({'$unwind': "$games.genre"})
         pipelines.append({'$project': {'_id': 1, 'test': "$games.genre"}})
         pipelines.append({'$group': {'_id': "$_id", 'genres': {'$push': "$test"}}})
-        pipelines.append({'$match': {'_id':username}})
+        pipelines.append({'$match': {'_id': username}})
 
         matrix = np.empty((0, 10))
         forCount = ['Action', 'Adventure', 'Casual', 'Indie', 'Massively Multiplayer', 'Racing', 'RPG', 'Simulation',
@@ -102,9 +110,10 @@ def main(request):
 
 def like(request):
     like_games = []
-    results = user_coll.find_one({'_id': request.user.username})['games']
-    for result in results:
-        like_games.append(result)
+    if (user_coll.find().count() != 0):
+        results = user_coll.find_one({'_id': request.user.username})['games']
+        for result in results:
+            like_games.append(result)
     return render(request, 'content/like.html',{'like_games':like_games})
 
 def remove(request):
@@ -233,6 +242,8 @@ def genrelist(request):
 def game(request):
     global game_name
     global tempgame_genre
+    other_page = []
+    other_prices = []
     game = []
     game_genre = []
     game_img = ""
@@ -259,6 +270,32 @@ def game(request):
     except:
         pass
 
+    informsForG = collection.find({'title': {'$regex': nameStr, '$options':'i'}}).limit(1)
+    for inform in informsForG:
+        other_page.append(inform['prices'][0]['store_name'])
+        other_prices.append(inform['prices'][0]['sale_price'])
+    siteinformForG = othersites.find({'_id': {'$regex': nameStr, '$options': 'i'}}).limit(1)
+    for sitein in siteinformForG:
+        for temp in sitein['prices']:
+            if (temp['normal_price'] == -1):
+                continue
+            elif (temp['sale_price'] == -1):
+                other_prices.append(temp['normal_price'])
+            else:
+                other_prices.append(temp['sale_price'])
+            other_page.append(temp['store_name'])
+
+    bar(other_page, other_prices, align='center', width=0.3, color='#ff6666')
+
+    buffer = io.BytesIO()
+    canvas = pylab.get_current_fig_manager().canvas
+    canvas.draw()
+    pilImage = PIL.Image.frombytes("RGB", canvas.get_width_height(), canvas.tostring_rgb())
+    pilImage.save(buffer, "PNG")
+    graphic = buffer.getvalue()
+    graphic = base64.b64encode(graphic)
+    graphic = graphic.decode('utf-8')
+
     user = request.user.username
     user_check = user_coll.find({'_id':user, 'games.title': game_name}).count()
     if (checkUpdate and delete_check == '0'):
@@ -273,5 +310,5 @@ def game(request):
         user_check = user_coll.find({'_id': user, 'games.title': game_name}).count()
 
     return render(request, 'content/gamedetail.html', {'game': game, 'usered':user,
-                                                       'userCheck': user_check, 'test': game_genre, 'sites': siteinform})
+                                                       'userCheck': user_check, 'test': game_genre, 'sites': siteinform, 'graphic': graphic})
 
