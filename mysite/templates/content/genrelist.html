@@ -23,6 +23,7 @@
                             <header id="header">
 								    
                                 <div id="search" class="alt">
+                                    <h4 style="margin-left: 0.2em">{{genre}}</h4>
                                     <h2>검색</h2>
 									<form method="post" action="{% url 'genrelist' %}">
                                         {% csrf_token %}

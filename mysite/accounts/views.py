@@ -12,8 +12,8 @@ import base64
 from django.views import generic
 import re
 import numpy as np
-import math
 from scipy.stats import pearsonr
+import math
 
 client = MongoClient('localhost', 27017)
 database = client.project
@@ -60,7 +60,6 @@ def mypage(request):
     ax1 = fig.add_subplot(1, 3, 1)
     title("Genre", position=(0.5, 0.8))
     ax1.title.set_size(20)
-
     ax1.pie(genValue, labels=genList, autopct='%1.1f%%', shadow=False, startangle=90)
     ax1.axis('equal')
 
@@ -95,7 +94,7 @@ def mypage(request):
 def main(request):
     games = []
     username = request.user.username
-    if (username == "" or username == None or user_coll.find().count() == 0 or user_coll.find().count() == 1):
+    if (username == "" or username == None or user_coll.find({'_id':username}).count() == 0):
         informs = collection.find({}, {'_id': 0}).limit(6).sort('date', -1)
     else:
         min1 = []
@@ -134,15 +133,6 @@ def main(request):
 
         for i in range(1, len(matrix)):
             corr = pearsonr(matrix[0], matrix[i])
-            # result = 0.0
-            # sum = 0
-            # for j in range(len(matrix[i])):
-            #     if (matrix[0][j] == 0):
-            #         continue
-            #     print(forCount[j], matrix[0][j])
-            #     temp = matrix[0][j] - matrix[i][j]
-            #     sum = sum + temp ** 2
-            # result = math.sqrt(float(sum))
             if (i == 1):
                 min1 = [i, corr]
                 min2 = min1
@@ -167,7 +157,7 @@ def main(request):
 
 def like(request):
     like_games = []
-    if (user_coll.find().count() != 0):
+    if (user_coll.find({'_id':request.user.username}).count() != 0):
         results = user_coll.find_one({'_id': request.user.username})['games']
         for result in results:
             like_games.append(result)
@@ -293,15 +283,14 @@ def genrelist(request):
                       'bottomPages': bottomPages,
                       'totalPageCount': int(totalPageCount),
                       'startPageNum': int(startPageNum),
-                      'endPageNum': int(endPageNum)
+                      'endPageNum': int(endPageNum),
+                      'genre': genre
                   })
 
 def game(request):
     global game_name
     global tempgame_genre
     global tempgame_publ
-    other_page = []
-    other_prices = []
     game = []
     game_genre = []
     game_pub = []
@@ -334,6 +323,9 @@ def game(request):
         tempgame_publ = re.sub("\'|\[|\]| |temp|\(Mac\)|\(Linux\)", '', tempgame_publ)
         tempstr = tempgame_publ.split(',')
         for temp in tempstr:
+            match = re.match('Ubisoft', temp)
+            if (match or re.match('Assassin', game_name)):
+                temp = "Ubisoft"
             if (temp == temppub):
                 continue
             game_pub.append(temp)
@@ -341,6 +333,8 @@ def game(request):
     except:
         pass
 
+    other_page = []
+    other_prices = []
     for temp in game['prices']:
         if (temp['normal_price'] == -1):
             continue
@@ -353,14 +347,16 @@ def game(request):
 
     bar(other_page, other_prices, align='center', width=0.2, color='#ff6666')
 
-    buffer = io.BytesIO()
+    buffer2 = io.BytesIO()
     canvas2 = pylab.get_current_fig_manager().canvas
     canvas2.draw()
-    pilImage = PIL.Image.frombytes("RGB", canvas2.get_width_height(), canvas2.tostring_rgb())
-    pilImage.save(buffer, "PNG")
-    graphic = buffer.getvalue()
-    graphic = base64.b64encode(graphic)
-    graphic = graphic.decode('utf-8')
+    pilImage2 = PIL.Image.frombytes("RGB", canvas2.get_width_height(), canvas2.tostring_rgb())
+    pilImage2.save(buffer2, "PNG")
+    graphic2 = buffer2.getvalue()
+    graphic2 = base64.b64encode(graphic2)
+    graphic2 = graphic2.decode('utf-8')
+
+    a = game[0]['prices']
 
     user = request.user.username
     user_check = user_coll.find({'_id':user, 'games.title': game_name}).count()
@@ -376,5 +372,5 @@ def game(request):
         user_check = user_coll.find({'_id': user, 'games.title': game_name}).count()
 
     return render(request, 'content/gamedetail.html', {'game': game, 'usered':user,
-                                                       'userCheck': user_check, 'test': game_genre, 'graphic': graphic})
+                                                       'userCheck': user_check, 'test': game_genre, 'graphic': graphic2})
 
