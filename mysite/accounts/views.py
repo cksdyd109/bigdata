@@ -13,16 +13,17 @@ from django.views import generic
 import re
 import numpy as np
 import math
+from scipy.stats import pearsonr
 
 client = MongoClient('localhost', 27017)
 database = client.project
-collection = database.games
-othersites = database.othersite
+collection = database.gameinforms
 user_coll = database.user
 
 game_name = ""
 genre = ""
 tempgame_genre = "temp"
+tempgame_publ = "temp"
 
 font_name = font_manager.FontProperties(fname='c:/Windows/Fonts/malgun.ttf').get_name()
 rc('font', family=font_name)
@@ -36,11 +37,66 @@ class SignUp(generic.CreateView):
 def login(request):
     return render(request, 'registration/login.html')
 
+
+def mypage(request):
+    genCount = {'Action': 0, 'Adventure': 0, 'Casual': 0, 'Indie': 0, 'MassivelyMultiplayer': 0, 'Racing': 0, 'RPG': 0,
+                'Simulation': 0, 'Sports': 0, 'Strategy': 0}
+    if (user_coll.find_one({"_id": request.user.username}) is None):
+        return render(request, 'content/mypage.html', {'check': 1})
+    genre_results = user_coll.find_one({"_id": request.user.username})['games']
+    genList = []
+    genValue = []
+
+    for result in genre_results:
+        for genre in result['genre']:
+            genCount[genre] += 1
+
+    for genre in genCount:
+        if genCount[genre] != 0:
+            genList.append(genre)
+            genValue.append(genCount[genre])
+
+    fig = plt.figure(figsize=(12, 6))
+    ax1 = fig.add_subplot(1, 3, 1)
+    title("Genre", position=(0.5, 0.8))
+    ax1.title.set_size(20)
+
+    ax1.pie(genValue, labels=genList, autopct='%1.1f%%', shadow=False, startangle=90)
+    ax1.axis('equal')
+
+    publisher_dic = dict()
+    publisher_results = user_coll.find_one({"_id": request.user.username})['games']
+
+    for result in publisher_results:
+        for publisher in result['publisher']:
+            if publisher in publisher_dic:
+                publisher_dic[publisher] += 1
+            else:
+                publisher_dic[publisher] = 1
+
+
+    ax2 = fig.add_subplot(1, 3, 3)
+    title("Publisher", position=(0.5, 0.8))
+    ax2.title.set_size(20)
+    ax2.pie(publisher_dic.values(), labels=publisher_dic.keys(), autopct='%1.1f%%', shadow=False, startangle=90)
+    ax2.axis('equal')
+
+    buffer = io.BytesIO()
+    canvas = pylab.get_current_fig_manager().canvas
+    canvas.draw()
+    pilImage = PIL.Image.frombytes("RGB", canvas.get_width_height(), canvas.tostring_rgb())
+    pilImage.save(buffer, "PNG")
+    graphic = buffer.getvalue()
+    graphic = base64.b64encode(graphic)
+    graphic = graphic.decode('utf-8')
+
+    return render(request, 'content/mypage.html', {'graphic': graphic})
+
 def main(request):
     games = []
     username = request.user.username
-    if (username == "" or username == None or user_coll.find().count() == 0):
-        informs = collection.find({}, {'_id': 0}).limit(6)
+    if (username == "" or username == None or user_coll.find().count() == 0 or user_coll.find().count() == 1):
+        informs = collection.find({}, {'_id': 0}).limit(6).sort('date', -1)
     else:
         min1 = []
         min2 = []
@@ -76,25 +132,26 @@ def main(request):
                         user[0][j] = user[0][j] + 1
             matrix = np.append(matrix, user, axis=0)
 
-        for i in range(len(matrix)):
-            result = 0.0
-            sum = 0
-            for j in range(len(matrix[i])):
-                if (matrix[0][j] == 0):
-                    continue
-                print(forCount[j], matrix[0][j])
-                temp = matrix[0][j] - matrix[i][j]
-                sum = sum + temp ** 2
-            result = math.sqrt(float(sum))
+        for i in range(1, len(matrix)):
+            corr = pearsonr(matrix[0], matrix[i])
+            # result = 0.0
+            # sum = 0
+            # for j in range(len(matrix[i])):
+            #     if (matrix[0][j] == 0):
+            #         continue
+            #     print(forCount[j], matrix[0][j])
+            #     temp = matrix[0][j] - matrix[i][j]
+            #     sum = sum + temp ** 2
+            # result = math.sqrt(float(sum))
             if (i == 1):
-                min1 = [i, result]
+                min1 = [i, corr]
                 min2 = min1
             elif (i > 1):
-                if (min1[1] > result):
-                    min1 = [i, result]
+                if (min1[1] > corr):
+                    min1 = [i, corr]
                     min2 = min1
-                elif (min2[1] > result):
-                    min2 = [i, result]
+                elif (min2[1] > corr):
+                    min2 = [i, corr]
 
         max = 0
         for i in range(len(forCount)):
@@ -102,7 +159,7 @@ def main(request):
             if (max < avg):
                 max = i
 
-        informs = collection.find({'genre': {'$all': [forCount[max]]}}, {'_id': 0}).limit(6)
+        informs = collection.find({'genre': {'$all': [forCount[max]]}}, {'_id': 0}).limit(6).sort('date', -1)
 
     for inform in informs:
         games.append(inform)
@@ -150,7 +207,7 @@ def glist(request):
     searching = ""
     if (request.method == 'POST'):
         searching = request.POST.get('searching')
-    informs = collection.find({'title': {'$regex': searching, '$options': 'i'}}, {'_id': 0})
+    informs = collection.find({'title': {'$regex': searching, '$options': 'i'}}, {'_id': 0}).sort('date', -1)
     for inform in informs:
         games.append(inform)
 
@@ -202,7 +259,7 @@ def genrelist(request):
     if (searching == None):
         searching = ''
 
-    informs = collection.find({'title': {'$regex': searching, '$options': 'i'}, 'genre': {'$all': [genre]}}, {'_id': 0})
+    informs = collection.find({'title': {'$regex': searching, '$options': 'i'}, 'genre': {'$all': [genre]}}, {'_id': 0}).sort('date', -1)
     for inform in informs:
         games.append(inform)
 
@@ -242,23 +299,26 @@ def genrelist(request):
 def game(request):
     global game_name
     global tempgame_genre
+    global tempgame_publ
     other_page = []
     other_prices = []
     game = []
     game_genre = []
+    game_pub = []
     game_img = ""
     checkUpdate = False
     if (request.method == 'POST'):
         game_name = request.POST.get('gameName')
         game_img = request.POST.get('gameImg')
         tempgame_genre = request.POST.get('gameGenre')
+        tempgame_publ = request.POST.get('gamePublisher')
         delete_check = request.POST.get('deleteCheck')
     if (game_img != "" and game_img != None):
         checkUpdate = True
     nameStr = '^' + game_name + '$'
 
     informs = collection.find({'title': {'$regex': nameStr}}).limit(1)
-    siteinform = othersites.find({'_id': {'$regex': game_name, '$options': 'i'}}).limit(1)
+    # siteinform = othersites.find({'_id': {'$regex': game_name, '$options': 'i'}}).limit(1)
     
     for inform in informs:
         game = inform
@@ -269,28 +329,34 @@ def game(request):
             game_genre.append(temp)
     except:
         pass
-
-    informsForG = collection.find({'title': {'$regex': nameStr, '$options':'i'}}).limit(1)
-    for inform in informsForG:
-        other_page.append(inform['prices'][0]['store_name'])
-        other_prices.append(inform['prices'][0]['sale_price'])
-    siteinformForG = othersites.find({'_id': {'$regex': nameStr, '$options': 'i'}}).limit(1)
-    for sitein in siteinformForG:
-        for temp in sitein['prices']:
-            if (temp['normal_price'] == -1):
+    temppub = ""
+    try:
+        tempgame_publ = re.sub("\'|\[|\]| |temp|\(Mac\)|\(Linux\)", '', tempgame_publ)
+        tempstr = tempgame_publ.split(',')
+        for temp in tempstr:
+            if (temp == temppub):
                 continue
-            elif (temp['sale_price'] == -1):
-                other_prices.append(temp['normal_price'])
-            else:
-                other_prices.append(temp['sale_price'])
+            game_pub.append(temp)
+            temppub = temp
+    except:
+        pass
+
+    for temp in game['prices']:
+        if (temp['normal_price'] == -1):
+            continue
+        elif (temp['sale_price'] == -1):
+            other_prices.append(temp['normal_price'])
+            other_page.append(temp['store_name'])
+        else:
+            other_prices.append(temp['sale_price'])
             other_page.append(temp['store_name'])
 
-    bar(other_page, other_prices, align='center', width=0.3, color='#ff6666')
+    bar(other_page, other_prices, align='center', width=0.2, color='#ff6666')
 
     buffer = io.BytesIO()
-    canvas = pylab.get_current_fig_manager().canvas
-    canvas.draw()
-    pilImage = PIL.Image.frombytes("RGB", canvas.get_width_height(), canvas.tostring_rgb())
+    canvas2 = pylab.get_current_fig_manager().canvas
+    canvas2.draw()
+    pilImage = PIL.Image.frombytes("RGB", canvas2.get_width_height(), canvas2.tostring_rgb())
     pilImage.save(buffer, "PNG")
     graphic = buffer.getvalue()
     graphic = base64.b64encode(graphic)
@@ -300,15 +366,15 @@ def game(request):
     user_check = user_coll.find({'_id':user, 'games.title': game_name}).count()
     if (checkUpdate and delete_check == '0'):
         if(user_coll.find({'_id':user}).count() == 0 ):
-            user_coll.insert_one({'_id': user, 'games': [{'title': game_name, 'img': game_img, 'genre':game_genre}]})
+            user_coll.insert_one({'_id': user, 'games': [{'title': game_name, 'img': game_img, 'genre':game_genre, 'publisher':game_pub}]})
         else:
-            user_coll.update_one({'_id': user}, {'$push': {'games': {'title': game_name, 'img': game_img, 'genre':game_genre}}})
+            user_coll.update_one({'_id': user}, {'$push': {'games': {'title': game_name, 'img': game_img, 'genre':game_genre, 'publisher':game_pub}}})
         
         user_check = user_coll.find({'_id': user, 'games.title': game_name}).count()
     elif (delete_check == '1'):
-        user_coll.update_one({'_id': user}, {'$pull': {'games': {'title': game_name, 'img': game_img, 'genre':game_genre}}})
+        user_coll.update_one({'_id': user}, {'$pull': {'games': {'title': game_name, 'img': game_img, 'genre':game_genre, 'publisher':game_pub}}})
         user_check = user_coll.find({'_id': user, 'games.title': game_name}).count()
 
     return render(request, 'content/gamedetail.html', {'game': game, 'usered':user,
-                                                       'userCheck': user_check, 'test': game_genre, 'sites': siteinform, 'graphic': graphic})
+                                                       'userCheck': user_check, 'test': game_genre, 'graphic': graphic})
 

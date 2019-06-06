@@ -48,7 +48,11 @@
                                                     </tr>
                                                     <tr>
                                                         <td>Released</td>
-                                                        <td>{{game.date}}</td>
+                                                        <td id="releasedate">{{game.date}}</td>
+                                                        <script>
+                                                            var temp = document.getElementById('releasedate').innerHTML.replace(', midnight', '');
+                                                            document.getElementById('releasedate').innerHTML = temp;
+                                                        </script>
                                                     </tr>
                                                     <tr>
                                                         <td>Genre</td>
@@ -73,6 +77,7 @@
                                                     <p hidden><input type="text" name="gameName" value="{{game.title}}"></p>
                                                     <p hidden><input type="text" name="gameImg" value="{{game.img}}"></p>
                                                     <p hidden><input type="text" name="gameGenre" value="{{game.genre}}"></p>
+                                                    <p hidden><input type="text" name="gamePublisher" value="{{game.publisher}}"></p>
                                                     {% if userCheck == 0 %}
                                                         <p hidden><input type="text" name="deleteCheck" value="0"></p>
                                                         <a href="#" class="button primary icon fa-star" onclick="document.getElementById('favorite').submit();"> Favorites</a>
@@ -110,6 +115,23 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    {% for price in game.prices %}
+                                                        <tr>
+                                                            <td><a href="{{price.url}}">{{price.store_name}}</a></td>
+                                                            {% if price.normal_price == -1 %}
+                                                                <p hidden></p>
+                                                            {% elif price.sale_price == -1 %}
+                                                                <td>{{ price.normal_price|div:price.normal_price|mul:100|sub:100|floatformat:-1 }}%</td>
+                                                                <td>{{price.normal_price}}원</td>
+                                                                <td>{{price.normal_price}}원</td>
+                                                            {% else %}
+                                                                <td>{{ price.sale_price|div:price.normal_price|mul:100|sub:100|floatformat:-1 }}%</td>
+                                                                <td>{{price.normal_price}}원</td>
+                                                                <td>{{price.sale_price}}원</td>
+                                                            {% endif %}
+                                                        </tr>
+                                                    {% endfor %}
+<!--
                                                     <tr>
                                                         <td><a href="{{game.prices.0.url}}">{{game.prices.0.store_name}}</a></td>
                                                         <td>{{ game.prices.0.sale_price|div:game.prices.0.normal_price|mul:100|sub:100 }}%</td>
@@ -132,6 +154,7 @@
                                                             {% endif %}
                                                         </tr>
                                                     {% endfor %}
+-->
                                                 </tbody>
                                             </table>
                                             
@@ -208,6 +231,7 @@
                                         </li>
 										{% if user.is_authenticated %}
 											<li><a href="{% url 'like' %}">즐겨찾기</a></li>
+                                            <li><a href="{% url 'mypage' %}">마이페이지</a></li>
 											<li><a href="{% url 'logout' %}">로그아웃</a></li>
 										{% else %}
 											<li><a href="{% url 'login' %}">로그인</a></li>

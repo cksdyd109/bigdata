@@ -229,6 +229,7 @@
 										</li>
 										{% if user.is_authenticated %}
 											<li><a href="{% url 'like' %}">즐겨찾기</a></li>
+                                            <li><a href="{% url 'mypage' %}">마이페이지</a></li>
 											<li><a href="{% url 'logout' %}">로그아웃</a></li>
 										{% else %}
 											<li><a href="{% url 'login' %}">로그인</a></li>

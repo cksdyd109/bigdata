@@ -27,5 +27,6 @@ urlpatterns = [
     path('list', views.glist, name='list'),
     path('genrelist', views.genrelist, name='genrelist'),
     path('game', views.game, name='game'),
-    path('login', views.login, name='login')
+    path('login', views.login, name='login'),
+    path('mypage', views.mypage, name='mypage')
 ]

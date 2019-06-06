@@ -45,7 +45,11 @@
                                                             <p hidden><input type="text" name="gameName" value="{{game.title}}"></p>
                                                             <h3><a href="#" onclick="document.getElementById('game{{forloop.counter0}}').submit();">{{game.title}}</a></h3>
                                                         </form>
-                                                        <p class="game_date">{{game.date}}</p>
+                                                        <p class="game_date" id="date{{forloop.counter0}}">{{game.date}}</p>
+                                                        <script>
+                                                            var temp = document.getElementById('date{{forloop.counter0}}').innerHTML.replace(', midnight', '');
+                                                            document.getElementById('date{{forloop.counter0}}').innerHTML = temp;
+                                                        </script>
                                                         <p>{{game.price}}</p>
                                                         <p id='genre{{i}}'>
                                                             {% for genre in game.genre %}
@@ -68,21 +72,21 @@
                                     <ul class="pagination">
                                         
                                         {% if startPageNum != 1 %}
-                                            <li><a href="/compsite/genrelist?pageNum={{startPageNum | sub:1}}" class="button">이전</a></li>
+                                            <li><a href="/accounts/genrelist?pageNum={{startPageNum | sub:1}}" class="button">이전</a></li>
                                         {% else %}
                                             <li><a href="#" class="button disabled">이전</a></li>
                                         {% endif %}
                                         
                                         {% for i in bottomPages %}
                                             {% if i == pageNum %}
-                                                <li><a href="/compsite/genrelist?pageNum={{i}}" class="page active">{{i}}</a></li>
+                                                <li><a href="/accounts/genrelist?pageNum={{i}}" class="page active">{{i}}</a></li>
                                             {% else %}
-                                                <li><a href="/compsite/genrelist?pageNum={{i}}" class="page">{{i}}</a></li>
+                                                <li><a href="/accounts/genrelist?pageNum={{i}}" class="page">{{i}}</a></li>
                                             {% endif %}
                                         {% endfor %}
                                         
                                         {% if endPageNum < totalPageCount %}
-                                            <li><a href="/compsite/genrelist?pageNum={{endPageNum | add:1}}" class="button">다음</a></li>
+                                            <li><a href="/accounts/genrelist?pageNum={{endPageNum | add:1}}" class="button">다음</a></li>
                                         {% else %}
                                             <li><a href="#" class="button disabled">다음</a></li>
                                         {% endif %}
@@ -153,6 +157,7 @@
                                         </li>
 										{% if user.is_authenticated %}
 											<li><a href="{% url 'like' %}">즐겨찾기</a></li>
+                                            <li><a href="{% url 'mypage' %}">마이페이지</a></li>
 											<li><a href="{% url 'logout' %}">로그아웃</a></li>
 										{% else %}
 											<li><a href="{% url 'login' %}">로그인</a></li>
