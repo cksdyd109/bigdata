@@ -345,7 +345,9 @@ def game(request):
             other_prices.append(temp['sale_price'])
             other_page.append(temp['store_name'])
 
-    bar(other_page, other_prices, align='center', width=0.2, color='#ff6666')
+    fig = plt.figure()
+    ax1 = fig.add_subplot(1,1,1)
+    ax1.bar(other_page, other_prices, align='center', width=0.2, color='#ff6666')
 
     buffer2 = io.BytesIO()
     canvas2 = pylab.get_current_fig_manager().canvas
@@ -356,7 +358,7 @@ def game(request):
     graphic2 = base64.b64encode(graphic2)
     graphic2 = graphic2.decode('utf-8')
 
-    a = game[0]['prices']
+    # a = game[0]['prices']
 
     user = request.user.username
     user_check = user_coll.find({'_id':user, 'games.title': game_name}).count()
