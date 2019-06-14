@@ -137,10 +137,10 @@ def main(request):
                 min1 = [i, corr]
                 min2 = min1
             elif (i > 1):
-                if (min1[1] > corr):
-                    min1 = [i, corr]
+                if (min1[1][1] > corr[1]):
                     min2 = min1
-                elif (min2[1] > corr):
+                    min1 = [i, corr]
+                elif (min2[1][1] > corr[1]):
                     min2 = [i, corr]
 
         max = 0

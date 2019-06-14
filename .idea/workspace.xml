@@ -2,9 +2,65 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ec6e6f4a-2207-4302-b2b5-050154e1856a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mysite/accounts/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/accounts/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mysite/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/css/font-awesome.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/css/main.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/fonts/FontAwesome.otf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/fonts/fontawesome-webfont.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/fonts/fontawesome-webfont.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/fonts/fontawesome-webfont.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/fonts/fontawesome-webfont.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/fonts/fontawesome-webfont.woff2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/images/pic01.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/images/pic02.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/images/pic03.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/images/pic04.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/images/pic05.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/images/pic06.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/images/pic07.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/images/pic08.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/images/pic09.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/images/pic10.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/images/pic11.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/js/breakpoints.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/js/browser.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/js/jquery.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/js/main.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/js/util.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/sass/base/_page.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/sass/base/_reset.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/sass/base/_typography.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/sass/components/_actions.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/sass/components/_box.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/sass/components/_button.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/sass/components/_contact.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/sass/components/_features.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/sass/components/_form.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/sass/components/_icon.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/sass/components/_icons.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/sass/components/_image.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/sass/components/_list.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/sass/components/_mini-posts.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/sass/components/_pagination.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/sass/components/_posts.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/sass/components/_row.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/sass/components/_section.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/sass/components/_table.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/sass/layout/_banner.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/sass/layout/_footer.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/sass/layout/_header.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/sass/layout/_main.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/sass/layout/_menu.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/sass/layout/_sidebar.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/sass/layout/_wrapper.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/sass/libs/_breakpoints.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/sass/libs/_functions.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/sass/libs/_html-grid.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/sass/libs/_mixins.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/sass/libs/_vars.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/sass/libs/_vendor.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/sass/main.scss" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -26,7 +82,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mysite/mysite/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="361">
+            <state relative-caret-position="399">
               <caret line="21" column="36" selection-start-line="21" selection-start-column="36" selection-end-line="21" selection-end-column="36" />
               <folding>
                 <element signature="e#630#662#0" expanded="true" />
@@ -38,8 +94,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mysite/accounts/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="828">
-              <caret line="335" column="19" selection-start-line="335" selection-start-column="19" selection-end-line="335" selection-end-column="19" />
+            <state relative-caret-position="99">
+              <caret line="51" column="32" lean-forward="true" selection-start-line="51" selection-start-column="32" selection-end-line="51" selection-end-column="32" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -68,6 +124,7 @@
       <find>sort</find>
       <find>other_prices</find>
       <find>g</find>
+      <find>pull</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -83,9 +140,8 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="953" />
     <option name="width" value="974" />
     <option name="height" value="1087" />
   </component>
@@ -118,12 +174,6 @@
               <item name="project" type="462c0819:PsiDirectoryNode" />
               <item name="mysite" type="462c0819:PsiDirectoryNode" />
               <item name="mysite" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="project" type="b2602c69:ProjectViewProjectNode" />
-              <item name="project" type="462c0819:PsiDirectoryNode" />
-              <item name="mysite" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="project" type="b2602c69:ProjectViewProjectNode" />
@@ -192,7 +242,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1663113" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -211,7 +260,7 @@
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Mongo Explorer" order="3" visible="true" weight="0.102345414" />
+      <window_info active="true" anchor="right" id="Mongo Explorer" order="3" visible="true" weight="0.10341151" />
     </layout>
   </component>
   <component name="editorHistoryManager">
@@ -235,23 +284,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mysite/mysite/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1121">
-          <caret line="59" column="25" selection-start-line="59" selection-start-column="25" selection-end-line="59" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mysite/mysite/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="21" column="36" selection-start-line="21" selection-start-column="36" selection-end-line="21" selection-end-column="36" />
-          <folding>
-            <element signature="e#630#662#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mysite/accounts/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="475">
@@ -262,10 +294,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/mysite/mysite/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1121">
+          <caret line="59" column="25" selection-start-line="59" selection-start-column="25" selection-end-line="59" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mysite/mysite/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="21" column="36" selection-start-line="21" selection-start-column="36" selection-end-line="21" selection-end-column="36" />
+          <folding>
+            <element signature="e#630#662#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/mysite/accounts/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="828">
-          <caret line="335" column="19" selection-start-line="335" selection-start-column="19" selection-end-line="335" selection-end-column="19" />
+        <state relative-caret-position="99">
+          <caret line="51" column="32" lean-forward="true" selection-start-line="51" selection-start-column="32" selection-end-line="51" selection-end-column="32" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
           </folding>
